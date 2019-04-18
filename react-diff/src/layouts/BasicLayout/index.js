@@ -49,12 +49,13 @@ class BasicLayout extends React.PureComponent{
     const selectedTopMenu = topMenuList.find((menu)=>menu.key===key);
     selectedTopMenu&&history.push(selectedTopMenu.jumpPath);
   }
+  //响应身份切换
   changeAuthType=(authType)=>{
     const {changeAuthType} = this.props;
     changeAuthType(authType);
   }
   render(){
-    const {topMenuList,authTypeList} = this.state;
+    const {topMenuList,authTypeList,loading} = this.state;
     const {user,children,className,match} = this.props;
     const {authType} = user;
     const currentAuth = authTypeList.find((item)=>item.value===authType);
@@ -90,9 +91,7 @@ class BasicLayout extends React.PureComponent{
               </Popover>
             </div>
         </Header>
-        <Content className={`g-body ${className}`}>
-          {children}
-        </Content>
+        <Content className={classnames('g-body',className)}>{children}</Content>
       </Layout>
     )
   }

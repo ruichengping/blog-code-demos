@@ -2,7 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import BasicLayout from '../BasicLayout';
-import {Menu,Icon} from 'antd'
+import {Menu,Icon} from 'antd';
+import Loading from '@/components/Loading';
 import './style.scss';
 const SubMenu = Menu.SubMenu;
 const navMenuList = [{
@@ -47,7 +48,7 @@ class SiderLayout extends React.PureComponent{
     }
   }
   render(){
-    const {children,location,authType} = this.props;
+    const {children,location,loading} = this.props;
     const {pathname} = location;
     const {openKeys,selectedKeys} = this.getOpenKeyAndSelectedKey(navMenuList,pathname);
     return (
@@ -64,7 +65,8 @@ class SiderLayout extends React.PureComponent{
             }
           </Menu>
         </div>
-        <div className="g-main" key={authType}>{children}</div>
+        {/* <div className="g-main" key={authType}>{children}</div> */}
+        <div className="g-main">{loading?<Loading/>:children}</div> 
       </BasicLayout>
     )
   }
