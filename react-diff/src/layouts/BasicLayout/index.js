@@ -1,8 +1,8 @@
 import React from 'react';
-import {Layout,Menu,Popover,Avatar,Icon} from 'antd';
+import {Layout,Menu,Popover,Avatar} from 'antd';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {Link} from 'react-router-dom';
+import classnames from 'classnames';
 import PropTypes from 'prop-types'
 import {withRouter} from 'react-router';
 import * as globalActions from '../../store/actions';
@@ -13,34 +13,59 @@ import './style.scss';
   dispatch=>bindActionCreators(globalActions,dispatch)
 )
 class BasicLayout extends React.PureComponent{
+  state={
+    topMenuList:[{
+      key:'/demo1',
+      name:'demo1',
+      jumpPath:'/demo1'
+    },{
+      key:'/demo2',
+      name:'demo2',
+      jumpPath:'/demo2'
+    },{
+      key:'/demo3',
+      name:'demo3',
+      jumpPath:'/demo3/1'
+    }],
+    authTypeList:[{
+      label:'游客',
+      value:'visitor'
+    },{
+      label:'管理员',
+      value:'manager'
+    },{
+      label:'超级管理员',
+      value:'super-manager'
+    }]
+  }
   static propTypes = {
     history: PropTypes.object.isRequired,
     match:PropTypes.object.isRequired
   }
-  constructor(props){
-    super(props);
-    const {match} = props;
-    const {fecthUserName} = props;
-    fecthUserName();
-    this.state={
-      menuSelectedKeys:[match.path.match(/^\/[a-zA-Z]+/)[0]]
-    }
-  }
-  //响应导航栏跳转
+   //响应导航栏跳转
   handleMenuClick=({key})=>{
+    const {topMenuList} = this.state;
     const {history} = this.props;
-    history.push(key);
+    const selectedTopMenu = topMenuList.find((menu)=>menu.key===key);
+    selectedTopMenu&&history.push(selectedTopMenu.jumpPath);
+  }
+  changeAuthType=(authType)=>{
+    const {changeAuthType} = this.props;
+    changeAuthType(authType);
   }
   render(){
-    const {menuSelectedKeys} = this.state;
-    const {user,children,className} = this.props;
-    const {username} = user;
+    const {topMenuList,authTypeList} = this.state;
+    const {user,children,className,match} = this.props;
+    const {authType} = user;
+    const currentAuth = authTypeList.find((item)=>item.value===authType);
     const content=(
       <ul className="m-user-operation-list">
-        <li className="operation-item" key="1"><Link to="/user/center">用户信息</Link></li>
-        <li className="operation-item" key="2"><a href="javascript:;">退出登录</a></li>
+        {
+          authTypeList.map((item)=>  <li className={classnames('operation-item',{active:item.value===authType})} key={item.value} onClick={this.changeAuthType.bind(this,item.value)}>{item.label}</li>)
+        }
       </ul>
     )
+    const menuSelectedKeys = topMenuList.filter((menu)=>match.path.indexOf(menu.key)>-1).map((menu)=>menu.key); 
     return (
       <Layout className="g-container">
         <Header className="g-header">
@@ -53,14 +78,15 @@ class BasicLayout extends React.PureComponent{
                 selectedKeys={menuSelectedKeys}
                 onClick={this.handleMenuClick}
               >
-                <Menu.Item key="/navone"><Icon type="mail" /> 导航1</Menu.Item>
-                <Menu.Item key="/navtwo"><Icon type="appstore" /> 导航2</Menu.Item>
+                {
+                  topMenuList.map((topMenu)=> <Menu.Item key={topMenu.key}>{topMenu.name}</Menu.Item>)
+                }
               </Menu>
             </div>
             <div className="m-right text-right">
               <Popover placement="bottom" content={content}>
                 <Avatar icon="user" />
-                <span className="u-user-name ml-10">{username}</span>
+                <span className="u-user-name ml-10">{currentAuth&&currentAuth.label}</span>
               </Popover>
             </div>
         </Header>

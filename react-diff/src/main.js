@@ -5,7 +5,6 @@ import store from '@/store';
 import App from './App';
 import '@babel/polyfill';
 import '@/scss/reset.scss';
-import '@/scss/base.scss';
 
 render(
   <Provider store={store}>

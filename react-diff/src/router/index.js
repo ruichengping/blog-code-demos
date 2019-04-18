@@ -1,41 +1,45 @@
 import Loadable from 'react-loadable';
 import createHistory from 'history/createBrowserHistory';
 import BasicLayout from '@/layouts/BasicLayout';
-import NavTwoLayout from '@/layouts/NavTwoLayout';
+import SiderLayout from '@/layouts/SiderLayout';
 import Loading from '@/components/Loading';
-import NotFound from '@/pages/Exception/404';
+
+const Page1InDemo1 = Loadable({loader: () => import('@/pages/demo1/page1'),loading: Loading});
+const Page2InDemo1 = Loadable({loader: () => import('@/pages/demo1/page2'),loading: Loading});
+const Demo2 = Loadable({loader: () => import('@/pages/demo2'),loading: Loading});
+const Demo3 = Loadable({loader: () => import('@/pages/demo3'),loading: Loading});
 
 
-const Home = Loadable({loader: () => import('@/pages/Home'),loading: Loading});
-const Teachers = Loadable({loader: () => import('@/pages/Teachers'),loading: Loading});
+
 
 export const history = createHistory();
 
 export const routes = [
   {
     path:'/',
-    redirect:'/navone/home'
+    redirect:'/demo1/page1'
   },
   {
-    path:'/navone',
-    redirect:'/navone/home',
+    path:'/demo1',
+    redirect:'/demo1/page1',
     children:[{
-      path:'/home',
-      layout:BasicLayout,
-      component:Home
-    }]
+      path:'/page1',
+      layout:SiderLayout,
+      component:Page1InDemo1
+    },{
+      path:'/page2',
+      layout:SiderLayout,
+      component:Page2InDemo1
+    },]
   },
   {
-    path:'/navtwo',
-    redirect:'/navtwo/teachers',
-    children:[{
-      path:'/teachers',
-      layout:NavTwoLayout,
-      component:Teachers
-    }]
+    path:'/demo2',
+    layout:BasicLayout,
+    component:Demo2
   },
   {
-    path:'*',
-    component:NotFound
+    path:'/demo3/:bookId',
+    layout:BasicLayout,
+    component:Demo3
   }
 ]

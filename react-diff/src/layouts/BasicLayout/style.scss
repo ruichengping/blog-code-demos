@@ -1,3 +1,4 @@
+@import '@/scss/variable.scss';
 .g-container{
   height: 100%;
   .g-header{
@@ -37,13 +38,12 @@
   }
 }
 .m-user-operation-list{
+  width: 100px;
   .operation-item{
     padding: 10px;
-    a:link{
-      color: #000;
-    }
-    a:hover{
-      color: #409eff;
+    cursor: pointer;
+    &.active{
+      color: $primary-color;
     }
   }
 }

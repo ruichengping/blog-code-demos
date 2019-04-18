@@ -1,13 +1,13 @@
 import * as actionTypes from './actionTypes';
 const initialState={
-  username:''
+  authType:'manager'
 }
 
 export default (state=initialState,actions)=>{
   const {type,payload}=actions;
   switch(type){
-    case actionTypes.CHANGE_USER_NAME:
-      return Object.assign({},initialState,{username:payload});
+    case actionTypes.CHANGE_AUTH_TYPE:
+      return Object.assign({},initialState,{authType:payload});
       break;
     default:
       return state;
