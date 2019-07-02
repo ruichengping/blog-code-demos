@@ -1,0 +1,30 @@
+{
+  "name": "react-ssr",
+  "version": "1.0.0",
+  "description": "react-ssr-demo",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build:server": "webpack --config build/webpack.server.conf.js --watch",
+    "build:client": "webpack --config build/webpack.client.conf.js --watch",
+    "server": "nodemon dist/server/index.js"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "nodemon": "^1.19.0",
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2",
+    "webpack-merge": "^4.2.1",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "history": "^4.9.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router": "^5.0.1"
+  }
+}
