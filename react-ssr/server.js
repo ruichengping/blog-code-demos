@@ -1,18 +1,19 @@
 import express from 'express';
 import React from 'react';
 import {renderToString} from 'react-dom/server';
-import User from './src/pages/user';
-import Login from './src/pages/login';
+import {StaticRouter,Route} from 'react-router';
+import Login from '@/pages/login';
+import User from '@/pages/user';
 const app = express();
-const urlMaptoComponent = {
-  "/login":Login,
-  "/user":User
-}
 app.use(express.static("dist"))
 app.get('*',function(req,res){
-  const MatchedComponent = urlMaptoComponent[req.path];
-  console.log(MatchedComponent.name)
-  const content = renderToString(<MatchedComponent/>);
+  console.log(req.path);
+  const content = renderToString(<div>
+    <StaticRouter location={{ pathname: req.path }}>
+      <Route path="/user" component={User}></Route>
+      <Route path="/login" component={Login}></Route>
+    </StaticRouter>
+  </div>);
   res.send(`
   <html>
     <body>

@@ -1,7 +1,9 @@
 import React from 'react';
-
-export default class Index extends React.PureComponent{
+export default class Login extends React.PureComponent{
+  handleClick=(e)=>{
+    alert(e.target.innerHTML)
+  }
   render(){
-    return <div>登陆</div>
+    return <div onClick={this.handleClick}>登陆</div>
   }
 }
