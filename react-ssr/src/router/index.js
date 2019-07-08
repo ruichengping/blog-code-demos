@@ -1,12 +1,32 @@
 import React from 'react';
-import {Route} from 'react-router';
-import Login from '@/pages/login';
-import User from '@/pages/user';
+import { createBrowserHistory } from "history";
+import {Route,Router,StaticRouter,Redirect,Switch} from 'react-router';
+import routeConf from  './routeConf';
 
+const routes = routeConf.map((conf,index)=>{
+  const {type,...otherConf} = conf;
+  if(type==='redirect'){
+    return <Redirect  key={index} {...otherConf}/>;
+  }else if(type ==='route'){
+    return <Route  key={index} {...otherConf}></Route>;
+  }
+});
 
-const routes = (<div>
-  <Route path="/user" component={User}></Route>
-  <Route path="/login" component={Login}></Route>
-</div>)
-export default routes;
+export const createRouter = (type)=>(params)=>{
+  if(type==='client'){
+    const history = createBrowserHistory();
+    return <Router history={history}>
+      <Switch>
+        {routes}
+      </Switch>
+    </Router>
+  }else if(type==='server'){
+    const {location} = params;
+    return <StaticRouter {...params}>
+       <Switch>
+        {routes}
+      </Switch>
+    </StaticRouter>
+  }
+}
 

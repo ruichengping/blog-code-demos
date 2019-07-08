@@ -1,12 +1,8 @@
 import React from 'react';
-import {createBrowserHistory} from 'history';
-import {Router,StaticRouter,Route} from 'react-router';
-import routes from '@/routes';
-
-const history = createBrowserHistory();
+import {createRouter} from '@/router';
 class App extends React.PureComponent{
   render(){
-    return (<Router history={history}>{routes}</Router>)
+    return createRouter('client')()
   }
 };
 export default App;
