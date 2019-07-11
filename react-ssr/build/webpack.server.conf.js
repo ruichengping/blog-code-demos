@@ -1,5 +1,6 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
   entry:{
     index:path.resolve(__dirname,'../server.js')
@@ -15,7 +16,8 @@ module.exports = {
   resolve:{
     alias:{
       '@':path.resolve(__dirname,'../src')
-    }
+    },
+    extensions:['.js']
   },
   module:{
     rules:[{
@@ -23,5 +25,11 @@ module.exports = {
       use:'babel-loader',
       exclude:/node_modules/
     }]
-  }
+  },
+  plugins: [
+    new CopyWebpackPlugin([{
+      from:path.resolve(__dirname,'../public'),
+      to:path.resolve(__dirname,'../dist')
+    }])
+  ]
 }

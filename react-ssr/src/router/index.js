@@ -11,7 +11,7 @@ const routes = routeConf.map((conf,index)=>{
     return <Route  key={index} {...otherConf}></Route>;
   }
 });
-
+export const routeConfs = routeConf;
 export const createRouter = (type)=>(params)=>{
   if(type==='client'){
     const history = createBrowserHistory();

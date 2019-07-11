@@ -2,6 +2,7 @@ import Login from '@/pages/login';
 import User from '@/pages/user';
 import NotFound from '@/pages/notFound';
 
+
 export default [{
   type:'redirect',
   exact:true,
@@ -11,7 +12,8 @@ export default [{
   type:'route',
   path:'/user',
   exact:true,
-  component:User
+  component:User,
+  loadData:User.loadData
 },{
   type:'route',
   path:'/login',
@@ -20,5 +22,8 @@ export default [{
 },{
   type:'route',
   path:'*',
-  component:NotFound
+  render:({staticContext})=>{
+    if (staticContext) staticContext.NOT_FOUND = true;
+    return <NotFound/>
+  }
 }]

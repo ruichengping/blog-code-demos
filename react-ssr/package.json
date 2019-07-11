@@ -7,14 +7,18 @@
   "scripts": {
     "build:server": "webpack --config build/webpack.server.conf.js --watch",
     "build:client": "webpack --config build/webpack.client.conf.js --watch",
-    "server": "nodemon dist/server/index.js"
+    "server": "nodemon dist/server/index.js",
+    "mock": "json-server mock/index.js -p 8000 -r mock/routes.json"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-proposal-decorators": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.6",
+    "copy-webpack-plugin": "^5.0.3",
+    "json-server": "^0.15.0",
     "nodemon": "^1.19.0",
     "webpack": "^4.31.0",
     "webpack-cli": "^3.3.2",
@@ -22,11 +26,16 @@
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "express": "^4.16.4",
     "history": "^4.9.0",
+    "http-proxy-middleware": "^0.19.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-redux": "^7.1.0",
     "react-router": "^5.0.1",
-    "react-router-dom": "^5.0.1"
+    "react-router-dom": "^5.0.1",
+    "redux": "^4.0.2",
+    "redux-thunk": "^2.3.0"
   }
 }
