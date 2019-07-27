@@ -2,7 +2,9 @@ import express from 'express';
 import React from 'react';
 import {renderToString} from 'react-dom/server';
 import {Provider} from 'react-redux';
+import {Helmet} from "react-helmet";
 import proxy from 'http-proxy-middleware';
+import StyleContext from 'isomorphic-style-loader/StyleContext';
 import {createRouter,routeConfs} from '@/router';
 import { matchPath } from "react-router-dom";
 import getStore from '@/store';
@@ -39,29 +41,43 @@ app.get('*',function(req,res){
     };
   });
   Promise.all(promises).then(()=>{
-    const content = renderToString(<Provider store={store}>
-      {createRouter('server')({
-          location:req.url,
-          context
-      })}
-    </Provider>);
+    const css = new Set()
+    const insertCss = (...styles) => styles.forEach(style => css.add(style._getCss()))
+    const content = renderToString(
+        <StyleContext.Provider value={{ insertCss }}>
+          <Provider store={store}>
+              {createRouter('server')({
+                  location:req.url,
+                  context
+              })}
+          </Provider>
+        </StyleContext.Provider>
+       );
+  const helmet = Helmet.renderStatic();
     if(context.url){
       res.redirect(context.url);
     }else{
       if(context.NOT_FOUND) res.status(404);
       res.send(`
-      <html>
-        <script>
-          window.INITIAL_STATE = ${JSON.stringify(store.getState())}
-        </script>
-        <body>
-          <div id="root">${content}</div>
-          <script src="/client/index.js"></script>
-        </body>
-      </html>
+        <!doctype html>
+        <html>
+          <head>
+            ${helmet.title.toString()}
+            ${helmet.meta.toString()}
+            <style>${[...css].join('')}</style>
+            <script>
+              window.INITIAL_STATE = ${JSON.stringify(store.getState())}
+            </script>
+          </head>
+          <body>
+            <div id="root">${content}</div>
+            <script src="/client/index.js"></script>
+          </body>
+        </html>
       `);
     }
-  }).catch(()=>{
+  }).catch((err)=>{
+    console.log(err);
     res.status(500);
     res.send('500');
   });
