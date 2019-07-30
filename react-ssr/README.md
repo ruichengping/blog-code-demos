@@ -1,13 +1,9 @@
-> 文章地址：[《从零开始，揭秘React服务端渲染核心技术》](https://juejin.im/post/5cb5b4926fb9a068b52fb823)
+> 文章地址：[《从零开始，揭秘React服务端渲染核心技术》](https://juejin.im/post/5cdbd5b6f265da03537901d8)
 
 # 项目启动
-## 编译服务端资源
+## 编译资源
 ```
-yarn run build:server
-```
-## 编译客户端资源
-```
-yarn run build:client
+yarn run build
 ```
 
 ## 启动服务
