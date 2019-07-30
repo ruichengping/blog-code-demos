@@ -5,7 +5,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build":"npm-run-all --parallel build:*",
+    "build":"npm-run-all --parallel build:* -l -n",
     "build:server": "webpack --config build/webpack.server.conf.js --watch",
     "build:client": "webpack --config build/webpack.client.conf.js --watch",
     "server": "nodemon dist/server/index.js",

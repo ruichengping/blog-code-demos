@@ -3,15 +3,15 @@
 # 项目启动
 ## 编译资源
 ```
-yarn run build
+yarn build
 ```
 
 ## 启动服务
 ```
-yarn run server
+yarn server
 ```
 
 ## 启动mock服务
 ```
-yarn run mock
+yarn mock
 ```
